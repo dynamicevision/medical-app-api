@@ -1,0 +1,116 @@
+###
+
+# curl -H 'content-type: application/json' -v -X POST -d '{"name": "tony", "email": "tony_admin@nest.it", "username":"tony_admin", "password": "secret"}' http://127.0.0.1:3000/api/auth/register
+POST http://127.0.0.1:8000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "doctor who",
+  "email": "docwho@gmail.com",
+  "username": "docwho",
+  "password": "secret",
+  "role": "doctor"
+}
+####
+POST http://127.0.0.1:8000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "anothertoney2",
+  "email": "anothertoney2@gmail.com",
+  "username": "anothertoney2",
+  "password": "secret",
+  "member": {
+    "age": 45,
+    "gender": "M",
+    "govtId": "anothertoney1232",
+    "allergies": [
+      {
+        "allergy": "penecilin",
+        "reportedBy": "doctor"
+      },
+      {
+        "allergy": "bs",
+        "reportedBy": "self"
+      }
+    ],
+    "planCoverage": {
+      "start": "2023-01-01",
+      "end": "2023-12-31",
+      "employerId": "cisco",
+      "employeeId": "empoye123",
+      "coveredAdults": 20,
+      "coveredChildren": 10
+    }
+  }
+}
+###
+
+# curl -X 'POST'
+#  'http://localhost:8000/api/auth/login'
+#  -H 'accept: application/json'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "email": "tony_admin@nest.it",
+#  "password": "secret"
+#}'
+POST http://127.0.0.1:8000/api/auth/login
+accept: application/json
+Content-Type: application/json
+
+{
+  "email": "anothertoney@gmail.com",
+  "password": "secret"
+}
+
+###
+
+POST http://127.0.0.1:8000/api/auth/login
+accept: application/json
+Content-Type: application/json
+
+{
+  "email": "docwho@gmail.com",
+  "password": "secret"
+}
+###
+GET http://127.0.0.1:8000/api/members
+accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsImlhdCI6MTY4NjI3NzU4MCwiZXhwIjoxNjg2MjgxMTgwLCJhdWQiOiJsb2NhbGhvc3Q6ODAwMCIsImlzcyI6ImxvY2FsaG9zdDo4MDAwIn0.d2JYbOiR_mCamN4BTQMmnxQ9Lm5bYm8pghHP-aLmEfc
+####
+GET http://127.0.0.1:8000/api/members/4
+accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsImlhdCI6MTY4NjI3NzU4MCwiZXhwIjoxNjg2MjgxMTgwLCJhdWQiOiJsb2NhbGhvc3Q6ODAwMCIsImlzcyI6ImxvY2FsaG9zdDo4MDAwIn0.d2JYbOiR_mCamN4BTQMmnxQ9Lm5bYm8pghHP-aLmEfc
+###
+GET http://127.0.0.1:8000/api/members
+accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidG9ueUBnbWFpbC5jb20iLCJpYXQiOjE2ODYyNzMwMDEsImV4cCI6MTY4NjI3NjYwMSwiYXVkIjoibG9jYWxob3N0OjgwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6ODAwMCJ9.PgmYdIl2ejJ2RV_nt5Sr53Y0VIbXnHVWDn3_Nm-Fu3Q
+###
+GET http://127.0.0.1:8000/api/members/1/get-family-member
+accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsImlhdCI6MTY4NjI3NzU4MCwiZXhwIjoxNjg2MjgxMTgwLCJhdWQiOiJsb2NhbGhvc3Q6ODAwMCIsImlzcyI6ImxvY2FsaG9zdDo4MDAwIn0.d2JYbOiR_mCamN4BTQMmnxQ9Lm5bYm8pghHP-aLmEfc
+###
+POST http://127.0.0.1:8000/api/members/1/add-family-member
+accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidG9ueUBnbWFpbC5jb20iLCJpYXQiOjE2ODYyNzMwMDEsImV4cCI6MTY4NjI3NjYwMSwiYXVkIjoibG9jYWxob3N0OjgwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6ODAwMCJ9.PgmYdIl2ejJ2RV_nt5Sr53Y0VIbXnHVWDn3_Nm-Fu3Q
+
+{
+  "name": "Daughter-of-tony",
+  "relation": "daughter",
+  "age": 23,
+  "gender": "F",
+  "govtId": "gurlid1234",
+  "allergies": [{}]
+}
+####
+DELETE http://127.0.0.1:8000/api/members/1/delete-family-member/1
+accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidG9ueUBnbWFpbC5jb20iLCJpYXQiOjE2ODYyNzMwMDEsImV4cCI6MTY4NjI3NjYwMSwiYXVkIjoibG9jYWxob3N0OjgwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6ODAwMCJ9.PgmYdIl2ejJ2RV_nt5Sr53Y0VIbXnHVWDn3_Nm-Fu3Q
+####
+
