@@ -59,7 +59,7 @@ export class LoginService {
       this.signToken<Partial<JWTPayload>>(
         user.id,
         this.jwtConfiguration.accessTokenTtl,
-        { email: user.email },
+        { email: user.email, role: user.role },
       ),
       this.signToken(user.id, this.jwtConfiguration.refreshTokenTtl),
     ]);

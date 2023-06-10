@@ -46,13 +46,13 @@ export class MembersController {
     return this.membersService.remove(+id);
   }
 
-  @Get(':id/get-family-member')
+  @Get(':id/family-members')
   getFamilyMember(@Param('id') id: number, @Req() request) {
     console.log('Request, ', request.user);
     return this.membersService.getAllFamilyMembers(+id);
   }
 
-  @Post(':id/add-family-member')
+  @Post(':id/family-members')
   addFamilyMember(
     @Param('id') id: number,
     @Body() createFamilyMember: CreateFamilyMemberDto,
@@ -62,7 +62,7 @@ export class MembersController {
     return this.membersService.createFamilyMember(+id, createFamilyMember);
   }
 
-  @Delete(':id/delete-family-member/:fmId')
+  @Delete(':id/family-member/:fmId')
   deleteFamilyMember(
     @Param('id') id: number,
     @Param('fmId') fmId: number,
@@ -72,7 +72,7 @@ export class MembersController {
     return this.membersService.deleteFamilyMember(+id, +fmId);
   }
 
-  @Post(':id/add-allergies')
+  @Post(':id/allergies')
   addMemberAllergies(
     @Param('id') id: number,
     @Body() payload: AllergyDto[],
@@ -82,13 +82,13 @@ export class MembersController {
     return this.membersService.addAllergiesToMember(+id, payload);
   }
 
-  @Delete(':id/remove-allergies')
+  @Delete(':id/allergies')
   removeMemberAllergies(@Param('id') id: number, @Req() request) {
     console.log('Request, ', request.user);
     return this.membersService.removeAllergiesOfMember(+id);
   }
 
-  @Post(':id/family-members/:fmId/add-allergies')
+  @Post(':id/family-members/:fmId/allergies')
   addFamilyMemberAllergies(
     @Param('id') id: number,
     @Param('fmId') fmId: number,
@@ -99,7 +99,7 @@ export class MembersController {
     return this.membersService.addAllergiesToFamilyMember(+id, fmId, payload);
   }
 
-  @Delete(':id/family-members/:fmId/remove-allergies')
+  @Delete(':id/family-members/:fmId/allergies')
   removeFamilyMemberAllergies(
     @Param('id') id: number,
     @Param('fmId') fmId: number,

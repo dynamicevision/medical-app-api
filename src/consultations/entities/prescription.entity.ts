@@ -43,4 +43,9 @@ export class Prescription extends CommonEntity {
     type: 'jsonb',
   })
   labTests?: LabTestPrescribedDto[];
+
+  @Column()
+  otpCode?: string;
+  @Column()
+  otpExpiry?: string;
 }

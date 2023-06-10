@@ -9,7 +9,11 @@ Content-Type: application/json
   "email": "docwho@gmail.com",
   "username": "docwho",
   "password": "secret",
-  "role": "doctor"
+  "role": "doctor",
+  "doctor": {
+    "licenseNumber": "docwho101",
+    "specialization": "upanishad"
+  }
 }
 ####
 POST http://127.0.0.1:8000/api/auth/register

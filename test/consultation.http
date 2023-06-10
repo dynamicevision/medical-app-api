@@ -1,0 +1,17 @@
+POST http://127.0.0.1:8000/api/auth/login
+accept: application/json
+Content-Type: application/json
+
+{
+  "email": "anothertoney@gmail.com",
+  "password": "secret"
+}
+####
+GET http://127.0.0.1:8000/api/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDA1MjkxLCJleHAiOjE2ODY0MDg4OTEsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.ACp93LhrEDpyX3QOJ7qx6pzbKobN46IJvVOBr1ChhAI
+####
+GET http://127.0.0.1:8000/api/members/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDA1MjkxLCJleHAiOjE2ODY0MDg4OTEsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.ACp93LhrEDpyX3QOJ7qx6pzbKobN46IJvVOBr1ChhAI
+####
+GET http://127.0.0.1:8000/api/members/1/get-family-member
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDA1MjkxLCJleHAiOjE2ODY0MDg4OTEsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.ACp93LhrEDpyX3QOJ7qx6pzbKobN46IJvVOBr1ChhAI
