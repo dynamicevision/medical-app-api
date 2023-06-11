@@ -15,3 +15,53 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsI
 ####
 GET http://127.0.0.1:8000/api/members/1/get-family-member
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDA1MjkxLCJleHAiOjE2ODY0MDg4OTEsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.ACp93LhrEDpyX3QOJ7qx6pzbKobN46IJvVOBr1ChhAI
+####
+POST http://127.0.0.1:8000/api/consultations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDU5OTI3LCJleHAiOjE2ODY0NjM1MjcsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.x8IrgVJ9mHri2KQ0oUkT7bx7LppFbhkcKFle2WMtbdc
+Content-Type: application/json
+Accept: application/json
+
+{
+  "doctorId": 1,
+  "memberId": 2,
+  "dateOfAppointment": "2023-08-10",
+  "force": true,
+  "fees": 100
+}
+####
+GET http://127.0.0.1:8000/api/consultations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDU5OTI3LCJleHAiOjE2ODY0NjM1MjcsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.x8IrgVJ9mHri2KQ0oUkT7bx7LppFbhkcKFle2WMtbdc
+Content-Type: application/json
+Accept: application/json
+####
+POST http://127.0.0.1:8000/api/consultations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDU5OTI3LCJleHAiOjE2ODY0NjM1MjcsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.x8IrgVJ9mHri2KQ0oUkT7bx7LppFbhkcKFle2WMtbdc
+Content-Type: application/json
+Accept: application/json
+
+{
+  "doctorId": 1,
+  "familyMemberId": 5,
+  "dateOfAppointment": "2023-10-21",
+  "force": false,
+  "fees": 100
+}
+####
+GET http://127.0.0.1:8000/api/members/2/family-members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDU5OTI3LCJleHAiOjE2ODY0NjM1MjcsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.x8IrgVJ9mHri2KQ0oUkT7bx7LppFbhkcKFle2WMtbdc
+Content-Type: application/json
+Accept: application/json
+####
+POST http://127.0.0.1:8000/api/members/2/family-members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDU5OTI3LCJleHAiOjE2ODY0NjM1MjcsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.x8IrgVJ9mHri2KQ0oUkT7bx7LppFbhkcKFle2WMtbdc
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "2FamilyMember2",
+  "age": 10,
+  "gender": "F",
+  "govtId": "1fm1232",
+  "relation": "daughter"
+}
+###

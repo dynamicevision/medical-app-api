@@ -87,6 +87,12 @@ export class ConsultationsService {
         throw new BadRequestException('Appointment for doc already present.');
       }
     } else if (memberId) {
+      console.log(
+        'memberid: ',
+        memberId,
+        ' creating memeber: ',
+        creatingMemberId,
+      );
       if (memberId !== creatingMemberId) {
         throw new BadRequestException(
           'Member can only create for self, not for another member.',

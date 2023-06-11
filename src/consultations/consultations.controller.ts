@@ -24,34 +24,35 @@ export class ConsultationsController {
   @Post()
   create(@Body() createConsultationDto: CreateConsultationDto, @Req() request) {
     const currentSub = request.user;
+    console.log('Current sub: ', currentSub);
     return this.consultationsService.create(
       createConsultationDto,
-      currentSub.id,
+      +currentSub.sub,
     );
   }
 
   @Get()
   findAll(@Req() request) {
     const currentSub = request.user;
-    return this.consultationsService.findAll(+currentSub.id);
+    return this.consultationsService.findAll(+currentSub.sub);
   }
 
   @Get('/doctor')
   findAllForDoctor(@Req() request) {
     const currentSub = request.user;
-    return this.consultationsService.findAllForDoctor(+currentSub.id);
+    return this.consultationsService.findAllForDoctor(+currentSub.sub);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string, @Req() request) {
     const currentSub = request.user;
-    return this.consultationsService.findOne(+id, currentSub.id);
+    return this.consultationsService.findOne(+id, currentSub.sub);
   }
 
   @Get(':id/link')
   findConsultationLink(@Param('id') id: string, @Req() request) {
     const currentSub = request.user;
-    return this.consultationsService.findConsultationLink(+id, currentSub.id);
+    return this.consultationsService.findConsultationLink(+id, currentSub.sub);
   }
 
   @Patch(':id')
@@ -64,14 +65,14 @@ export class ConsultationsController {
     return this.consultationsService.update(
       +id,
       updateConsultationDto,
-      currentSub.id,
+      currentSub.sub,
     );
   }
 
   @Delete(':id')
   remove(@Param('id') id: string, @Req() request) {
     const currentSub = request.user;
-    return this.consultationsService.remove(+id, currentSub.id);
+    return this.consultationsService.remove(+id, currentSub.sub);
   }
 
   @Post(':id/prescription')
