@@ -148,6 +148,7 @@ export class MembersService {
     if (member.allergies?.length === 0) {
       member.allergies = payload;
     } else {
+      member.allergies = [];
       member.allergies.push(...payload);
     }
     await this.memberRepository.save(member);
@@ -178,6 +179,7 @@ export class MembersService {
     if (familyMember.allergies?.length === 0) {
       familyMember.allergies = payload;
     } else {
+      familyMember.allergies = [];
       familyMember.allergies.push(...payload);
     }
     await this.familyMemberRepo.save(familyMember);
