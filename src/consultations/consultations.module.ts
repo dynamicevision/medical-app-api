@@ -10,6 +10,7 @@ import { FamilyMember } from '../members/entities/family-member.entity';
 import { Prescription } from './entities/prescription.entity';
 import { ConfigModule } from '@nestjs/config';
 import { Consultation } from './entities/consultation.entity';
+import { DoctorConsultationController } from './doctor-consultation.controller';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { Consultation } from './entities/consultation.entity';
       Consultation,
     ]),
   ],
-  controllers: [ConsultationsController],
+  controllers: [ConsultationsController, DoctorConsultationController],
   providers: [ConsultationsService],
 })
 export class ConsultationsModule {}

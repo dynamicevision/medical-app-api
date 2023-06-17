@@ -14,6 +14,7 @@ import { FamilyMember } from '../members/entities/family-member.entity';
 import { Consultation } from './entities/consultation.entity';
 import { authenticator } from 'otplib';
 import { ConfigService } from '@nestjs/config';
+import * as QRCode from 'qrcode';
 
 @Injectable()
 export class ConsultationsService {
@@ -73,12 +74,16 @@ export class ConsultationsService {
         const consultCode = authenticator.generate(
           this.configService.get<string>('OTP_SECRET'),
         );
+        const { qrImageLoc, url } =
+          await this.generateConsultationQrCodeAndLink(consultCode);
         const consultation = await this.consultRepo.save({
           familyMember,
           doctor,
           dateOfAppointment,
           status: 'pending',
           code: consultCode,
+          qrCodeImageLocation: qrImageLoc,
+          directLink: url,
           fees,
           createdBy: creatingMemberId,
         });
@@ -118,12 +123,16 @@ export class ConsultationsService {
         const consultCode = authenticator.generate(
           this.configService.get<string>('OTP_SECRET'),
         );
+        const { qrImageLoc, url } =
+          await this.generateConsultationQrCodeAndLink(consultCode);
         const consultation = await this.consultRepo.save({
           member,
           doctor,
           dateOfAppointment,
           status: 'pending',
           code: consultCode,
+          qrCodeImageLocation: qrImageLoc,
+          directLink: url,
           fees,
           createdBy: creatingMemberId,
         });
@@ -136,6 +145,34 @@ export class ConsultationsService {
         'Cannot process without memberId or familyMemberId',
       );
     }
+  }
+
+  async generateConsultationQrCodeAndLink(consultCode: string) {
+    //ui base url + /
+    const url =
+      this.configService.get('UI_BASE_URL') +
+      '/#/doctor/consultation/' +
+      consultCode;
+
+    const fileName = `images/${consultCode}_qrcode.png`;
+    QRCode.toFile(
+      fileName,
+      url,
+      {
+        color: {
+          dark: '#00F', // Blue dots
+          light: '#0000', // Transparent background
+        },
+      },
+      function (err) {
+        if (err) throw err;
+        console.log('done');
+      },
+    );
+    return {
+      qrImageLoc: fileName,
+      url,
+    };
   }
 
   async findAll(creatingMemberId: number) {
@@ -182,6 +219,16 @@ export class ConsultationsService {
     });
     allResults.push(...docConsult);
     return allResults;
+  }
+
+  async findOneById(consultId: number) {
+    const consultation = await this.consultRepo.findOne({
+      where: {
+        id: consultId,
+      },
+      relations: ['member', 'familyMember', 'doctor'],
+    });
+    return consultation;
   }
 
   async findOne(consultId: number, memberId: number, familyMemberId?: number) {
@@ -359,10 +406,11 @@ export class ConsultationsService {
     }
   }
 
-  public async validateConsultation(consultationId: number) {
+  public async validateConsultation(consultationId: number, inputCode: string) {
     const extConsult = await this.consultRepo.findOne({
       where: {
         id: consultationId,
+        code: inputCode,
       },
     });
     if (!extConsult) {
@@ -376,7 +424,7 @@ export class ConsultationsService {
     const token = extConsult.code;
     try {
       const isValid = authenticator.check(
-        token,
+        inputCode,
         this.configService.get('OTP_SECRET'),
       );
       // or
@@ -394,7 +442,7 @@ export class ConsultationsService {
     }
   }
 
-  async findConsultationLink(consultId: number, memberId: number) {
+  /* async findConsultationLink(consultId: number, memberId: number) {
     const belongsToMember = await this.consultBelongsToMember(
       consultId,
       memberId,
@@ -402,7 +450,7 @@ export class ConsultationsService {
     if (!belongsToMember) {
       throw new NotFoundException('Cannot find consult for member.');
     }
-    const valid = await this.validateConsultation(consultId);
+    const valid = await this.validateConsultation(consultId, inputCode);
     if (valid) {
       return {
         url:
@@ -413,7 +461,7 @@ export class ConsultationsService {
     } else {
       throw new BadRequestException('Code is invalid');
     }
-  }
+  }*/
 
   private async consultBelongsToMember(consultId: number, memberId: number) {
     const consultation = await this.consultRepo.findOne({
@@ -447,6 +495,64 @@ export class ConsultationsService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  async getDoctorConsultationsForCode(doctorId: number, consultCode: string) {
+    const doctor = await this.doctorRepo.findOne({
+      where: {
+        id: doctorId,
+      },
+    });
+    if (!doctor) {
+      throw new NotFoundException('Doctor not found');
+    }
+
+    const extConsult = await this.consultRepo.findOne({
+      where: {
+        code: consultCode,
+        status: 'pending',
+        doctor: {
+          id: doctorId,
+        },
+      },
+      relations: ['doctor', 'member', 'familyMember'],
+    });
+
+    if (!extConsult) {
+      throw new NotFoundException(
+        'No consultation in pending state with that code found.',
+      );
+    }
+  }
+
+  async getDoctorConsultations(doctorId: number, status: string = 'pending') {
+    if (!status) {
+      status = 'pending';
+    }
+    const doctor = await this.doctorRepo.findOne({
+      where: {
+        id: doctorId,
+      },
+    });
+    if (!doctor) {
+      throw new NotFoundException('Doctor not found');
+    }
+
+    const extConsult = await this.consultRepo.findOne({
+      where: {
+        status: status,
+        doctor: {
+          id: doctorId,
+        },
+      },
+      relations: ['doctor', 'member', 'familyMember'],
+    });
+
+    if (!extConsult) {
+      throw new NotFoundException(
+        'No consultation in pending state with that code found.',
+      );
     }
   }
 }

@@ -36,6 +36,12 @@ export class Consultation extends CommonEntity {
   @Column({ nullable: false })
   code: string;
 
+  @Column({ nullable: true })
+  qrCodeImageLocation?: string;
+
+  @Column({ nullable: true })
+  directLink?: string;
+
   @OneToMany(() => Prescription, (p) => p.consultation)
   prescriptions?: Prescription[];
 }

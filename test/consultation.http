@@ -17,7 +17,7 @@ GET http://127.0.0.1:8000/api/members/1/get-family-member
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDA1MjkxLCJleHAiOjE2ODY0MDg4OTEsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.ACp93LhrEDpyX3QOJ7qx6pzbKobN46IJvVOBr1ChhAI
 ####
 POST http://127.0.0.1:8000/api/consultations
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg2NDU5OTI3LCJleHAiOjE2ODY0NjM1MjcsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.x8IrgVJ9mHri2KQ0oUkT7bx7LppFbhkcKFle2WMtbdc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoiYW5vdGhlcnRvbmV5QGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjg3MDI0ODU4LCJleHAiOjE2ODcwMjg0NTgsImF1ZCI6ImxvY2FsaG9zdDo4MDAwIiwiaXNzIjoibG9jYWxob3N0OjgwMDAifQ.rtfDNkO1UnqOryLOZVtRbdtcrUDz6DAP2QRzWvOC9TU
 Content-Type: application/json
 Accept: application/json
 
@@ -64,4 +64,8 @@ Accept: application/json
   "govtId": "1fm1232",
   "relation": "daughter"
 }
+###
+GET http://127.0.0.1:8000/api/consultations/2/qrcode
+###
+GET http://127.0.0.1:8000/api/consultations/10/link
 ###
