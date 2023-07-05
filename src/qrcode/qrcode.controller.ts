@@ -9,14 +9,15 @@ export class QrcodeController {
   constructor(private readonly qrcodeService: QrcodeService) {}
 
   @Get('/doctor-registration-qr-code')
-  public showDocRegistrationQrCode() {
-    const data = this.qrcodeService.getDoctorRegistrationLink();
+  public async showDocRegistrationQrCode() {
+    const data = await this.qrcodeService.getDoctorRegistrationLink();
     //todo return qrcode image. data.pathToQrCode
+
     return data.pathToQrCode;
   }
 
   @Get('/show-doctor-registration-link')
-  public generateDocRegistrationLink() {
+  public async generateDocRegistrationLink() {
     return this.qrcodeService.getDoctorRegistrationLink();
   }
 }

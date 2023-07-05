@@ -118,3 +118,28 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoidG9ueUBnbWFpbC5jb20iLCJpYXQiOjE2ODYyNzMwMDEsImV4cCI6MTY4NjI3NjYwMSwiYXVkIjoibG9jYWxob3N0OjgwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6ODAwMCJ9.PgmYdIl2ejJ2RV_nt5Sr53Y0VIbXnHVWDn3_Nm-Fu3Q
 ####
 
+# curl 'http://localhost:8000/api/doctors'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Connection: keep-alive'
+#  -H 'Cookie: Idea-3c34b811=dfc499aa-a3d5-4814-bb71-bbc171effc04; JSESSIONID=E034EEE64910E717029B5898802D1577'
+#  -H 'Referer: http://localhost:8000/docs'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-origin'
+#  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+#  -H 'accept: application/json'
+#  -H 'sec-ch-ua: "Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Linux"'
+#  --compressed
+GET http://localhost:8000/api/doctors
+accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiYW5vdGhlcnRvbmV5MkBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4ODI3MDg0OCwiZXhwIjoxNjg4Mjc0NDQ4LCJhdWQiOiJsb2NhbGhvc3Q6ODAwMCIsImlzcyI6ImxvY2FsaG9zdDo4MDAwIn0.gJxSsmTUggOIwsfEi7iqXdRACC9I1j4qs_6d43hp550
+
+###
+GET http://localhost:8000/api/qrcode/doctor-registration-qr-code
+accept: application/json
+
+###
+GET http://localhost:8000/api/qrcode/show-doctor-registration-link
+accept: application/json
