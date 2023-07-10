@@ -202,7 +202,9 @@ export class ConsultationsService {
   async findAllForDoctor(docId: number) {
     const doc = await this.doctorRepo.findOne({
       where: {
-        id: docId,
+        user: {
+          id: docId,
+        },
       },
     });
     if (!doc) {
@@ -212,7 +214,7 @@ export class ConsultationsService {
     const docConsult = await this.consultRepo.find({
       where: {
         doctor: {
-          id: docId,
+          id: doc.id,
         },
       },
       relations: ['member', 'familyMember', 'doctor'],
