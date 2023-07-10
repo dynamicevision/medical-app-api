@@ -47,7 +47,7 @@ export class ConsultationsController {
     return this.consultationsService.findAllForDoctor(+currentSub.sub);
   }
 
-  @Get(':id')
+  @Get('/find/:id')
   findOne(@Param('id') id: string, @Req() request) {
     const currentSub = request.user;
     return this.consultationsService.findOne(+id, currentSub.sub);

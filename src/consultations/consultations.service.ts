@@ -233,9 +233,47 @@ export class ConsultationsService {
     return consultation;
   }
 
-  async findOne(consultId: number, memberId: number, familyMemberId?: number) {
+  async findOne(consultId: number, userId: number, familyMemberId?: number) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Cannot find user');
+    }
+    let memberId;
+    if (user.role === 'member') {
+      const member = await this.memberRepository.findOne({
+        where: {
+          user: {
+            id: userId,
+          },
+        },
+      });
+      if (!member) {
+        throw new BadRequestException('Member not found');
+      }
+      memberId = member.id;
+    }
+    let doctorId;
+    if (user.role === 'doctor') {
+      const doc = await this.doctorRepo.findOne({
+        where: {
+          user: {
+            id: userId,
+          },
+        },
+      });
+      if (!doc) {
+        throw new BadRequestException('Doctor not found');
+      }
+      doctorId = doc.id;
+    }
+
     let where;
-    if (familyMemberId) {
+    if (familyMemberId && memberId) {
       where = {
         id: consultId,
         familyMember: {
@@ -252,9 +290,16 @@ export class ConsultationsService {
           id: memberId,
         },
       };
+    } else if (doctorId) {
+      where = {
+        id: consultId,
+        doctor: {
+          id: doctorId,
+        },
+      };
     } else {
       throw new BadRequestException(
-        'Cannot find out which member or family member this consult is for.',
+        'Cannot find out which member or family member or doctor this consult is for.',
       );
     }
 
