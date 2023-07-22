@@ -19,11 +19,16 @@ import { CreatePrescriptionDto } from './dto/create-prescription.dto';
 import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
 import { createReadStream } from 'fs';
 import { Response } from 'express';
+import { PrescriptionServices } from './prescription.services';
+import { VerifyPrescriptionDto } from './dto/verify-prescription.dto';
 
 @AuthGuard(AuthType.Bearer)
 @Controller('consultations')
 export class ConsultationsController {
-  constructor(private readonly consultationsService: ConsultationsService) {}
+  constructor(
+    private readonly consultationsService: ConsultationsService,
+    private readonly prescriptionService: PrescriptionServices,
+  ) {}
 
   @Post()
   create(@Body() createConsultationDto: CreateConsultationDto, @Req() request) {
@@ -52,12 +57,6 @@ export class ConsultationsController {
     const currentSub = request.user;
     return this.consultationsService.findOne(+id, currentSub.sub);
   }
-
-  /*@Get(':id/link')
-  findConsultationLink(@Param('id') id: string, @Req() request) {
-    const currentSub = request.user;
-    return this.consultationsService.findConsultationLink(+id, currentSub.sub);
-  }*/
 
   @AuthGuard(AuthType.None)
   @Get('/:id/qrcode')
@@ -111,16 +110,57 @@ export class ConsultationsController {
 
   @Post(':id/prescription')
   createNewPrescription(
-    @Param('id') id: number,
+    @Param('id') consultationId: number,
     @Body() createPrescriptionDto: CreatePrescriptionDto,
     @Req() request,
-  ) {}
+  ) {
+    const currentSub = request.user;
+    return this.prescriptionService.create(
+      consultationId,
+      createPrescriptionDto,
+      +currentSub.sub,
+    );
+  }
 
   @Post(':id/prescription/:pid')
   updatePrescription(
     @Param('id') id: number,
     @Param('pid') prescriptionId: number,
-    @Body() createPrescriptionDto: UpdatePrescriptionDto,
+    @Body() updatePrescriptionDto: UpdatePrescriptionDto,
     @Req() request,
-  ) {}
+  ) {
+    const currentSub = request.user;
+    return this.prescriptionService.update(
+      id,
+      prescriptionId,
+      updatePrescriptionDto,
+      +currentSub.sub,
+    );
+  }
+
+  @Post(':id/prescription/:pid/verify')
+  verifyPrescription(
+    @Param('id') id: number,
+    @Param('pid') prescriptionId: number,
+    @Body() payload: VerifyPrescriptionDto,
+    @Req() request,
+  ) {
+    const currentSub = request.user;
+    return this.prescriptionService.verifyPrescription(
+      id,
+      prescriptionId,
+      +currentSub.sub,
+      payload,
+    );
+  }
+
+  @Delete(':id/prescription/:pid')
+  deletePrescription(
+    @Param('id') id: number,
+    @Param('pid') prescriptionId: number,
+    @Req() request,
+  ) {
+    const currentSub = request.user;
+    return this.prescriptionService.delete(id, prescriptionId, +currentSub.sub);
+  }
 }

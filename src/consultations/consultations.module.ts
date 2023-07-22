@@ -11,6 +11,7 @@ import { Prescription } from './entities/prescription.entity';
 import { ConfigModule } from '@nestjs/config';
 import { Consultation } from './entities/consultation.entity';
 import { DoctorConsultationController } from './doctor-consultation.controller';
+import { PrescriptionServices } from './prescription.services';
 
 @Module({
   imports: [
@@ -26,6 +27,6 @@ import { DoctorConsultationController } from './doctor-consultation.controller';
     ]),
   ],
   controllers: [ConsultationsController, DoctorConsultationController],
-  providers: [ConsultationsService],
+  providers: [ConsultationsService, PrescriptionServices],
 })
 export class ConsultationsModule {}

@@ -13,8 +13,8 @@ export abstract class CommonEntity {
   createdOn: Date;
 
   @Column({ nullable: true })
-  lastModifiedBy: number;
+  lastModifiedBy?: number;
 
   @UpdateDateColumn({ nullable: true, type: 'timestamptz' })
-  lastModifiedOn: Date;
+  lastModifiedOn?: Date;
 }

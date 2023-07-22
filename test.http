@@ -143,3 +143,8 @@ accept: application/json
 ###
 GET http://localhost:8000/api/qrcode/show-doctor-registration-link
 accept: application/json
+###
+GET http://127.0.0.1:8000/api/consultations/find/12
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoiZG9jd2hvQGdtYWlsLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE2ODkwMDQ0NjAsImV4cCI6MTY4OTAwODA2MCwiYXVkIjoibG9jYWxob3N0OjgwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6ODAwMCJ9.dlw_BX9IV0k8HJM3fF95HUtM5FwseAncHRVOOaLhpdk
+Accept: application/json
+###

@@ -47,5 +47,5 @@ export class Prescription extends CommonEntity {
   @Column()
   otpCode?: string;
   @Column()
-  otpExpiry?: string;
+  otpExpiry?: Date;
 }
