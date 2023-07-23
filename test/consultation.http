@@ -67,5 +67,49 @@ Accept: application/json
 ###
 GET http://127.0.0.1:8000/api/consultations/2/qrcode
 ###
-GET http://127.0.0.1:8000/api/consultations/10/link
+GET http://127.0.0.1:8000/api/consultations/find/10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoiZG9jd2hvQGdtYWlsLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE2OTAxMjU5MDgsImV4cCI6MTY5MDEyOTUwOCwiYXVkIjoibG9jYWxob3N0OjgwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6ODAwMCJ9.xAu5Jhx4IJh5eL5T7GPs_GjLEkhERkE4uFPzENqL1Go
+
 ###
+POST http://127.0.0.1:8000/api/consultations/10/prescription
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoiZG9jd2hvQGdtYWlsLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE2OTAxMjU5MDgsImV4cCI6MTY5MDEyOTUwOCwiYXVkIjoibG9jYWxob3N0OjgwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6ODAwMCJ9.xAu5Jhx4IJh5eL5T7GPs_GjLEkhERkE4uFPzENqL1Go
+
+{
+  "notes": "need some help",
+  "diagnosis": "Sick person",
+  "drugDetails": [
+    {
+      "genericName": "Paracetamol",
+      "brandName": "Calpol",
+      "dosageInMg": 10,
+      "frequency": 2,
+      "duration": 20,
+      "firstTimeOrRefill": "first-time",
+      "substitutionAllowed": false
+    },
+    {
+      "genericName": "Multi Vitamin",
+      "brandName": "Carodmaozone",
+      "dosageInMg": 100,
+      "frequency": 10,
+      "duration": 2,
+      "firstTimeOrRefill": "refill",
+      "substitutionAllowed": false
+    }
+  ],
+  "labTests": [{
+    "testType": "Blood Test"
+  },
+    {
+      "testType": "Urine Test"
+    }]
+}
+####
+POST http://127.0.0.1:8000/api/consultations/10/prescription/8/verify
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoiZG9jd2hvQGdtYWlsLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE2OTAxMjU5MDgsImV4cCI6MTY5MDEyOTUwOCwiYXVkIjoibG9jYWxob3N0OjgwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6ODAwMCJ9.xAu5Jhx4IJh5eL5T7GPs_GjLEkhERkE4uFPzENqL1Go
+
+{
+  "otpCode": "136300"
+}

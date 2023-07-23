@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../users/models/users.model';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, DeepPartial, Repository } from 'typeorm';
 import { Doctor } from '../doctors/entities/doctor.entity';
 import { Member } from '../members/entities/member.entity';
 import { FamilyMember } from '../members/entities/family-member.entity';
@@ -13,6 +13,8 @@ import { Prescription } from './entities/prescription.entity';
 import { authenticator } from 'otplib';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
+import { validateAndTransformDto } from '../common/utils';
+import { VerifyPrescriptionDto } from './dto/verify-prescription.dto';
 
 @Injectable()
 export class PrescriptionServices {
@@ -54,79 +56,52 @@ export class PrescriptionServices {
     const consultation: Consultation = await this.consultRepo.findOne({
       where: {
         id: consultationId,
+        doctor: {
+          id: doctor.id,
+        },
       },
+      relations: ['member', 'familyMember'],
     });
 
     if (!consultation && consultation.status !== 'Pending') {
       throw new BadRequestException('Consultation not found.');
     }
-
-    const {
-      notes,
-      familyMemberId,
-      memberId,
-      drugDetails,
-      labTests,
-      diagnosis,
-    } = payload;
-    let familyMember: FamilyMember, member: Member;
-    if (familyMemberId && memberId) {
-      familyMember = await this.fmRepo.findOne({
-        where: {
-          id: familyMemberId,
-          memberRelatedTo: {
-            id: memberId,
-          },
-        },
-      });
-
-      if (!familyMember) {
-        throw new BadRequestException('No family for the given member');
-      }
+    const { errors, validatedObj } = await validateAndTransformDto(
+      CreatePrescriptionDto,
+      payload,
+    );
+    if (errors.length) {
+      throw new BadRequestException(errors.join(';'));
     }
+    console.log('Payload: ', payload);
 
-    if (!familyMemberId && memberId) {
-      member = await this.memberRepository.findOne({
-        where: {
-          id: memberId,
-        },
-      });
-    }
+    const { notes, drugDetails, labTests, diagnosis } = payload;
 
     const otpCode = authenticator.generate(
       this.configService.get<string>('OTP_SECRET'),
     );
-    const otpExpiry = new Date();
-    /*const ent = {
-      notes,
-      doctor,
-      diagnosis,
-      consultation,
-      status: 'Pending',
-      familyMember,
-      drugDetails,
-      member,
-      labTests,
+    console.log(
+      '##### Otp: ',
       otpCode,
-      otpExpiry,
-      createdBy: docUserId,
-      createdOn: new Date(),
-    };*/
+      this.configService.get<string>('OTP_SECRET'),
+    );
+    const otpExpiry = new Date();
+
     const insertResult = await this.prescriptionRepository.save({
       notes,
       doctor,
       diagnosis,
       consultation,
       status: 'Pending',
-      familyMember,
+      familyMember: consultation.familyMember,
       drugDetails,
-      member,
+      member: consultation.member,
       labTests,
       otpCode,
       otpExpiry,
       createdBy: docUserId,
       createdOn: new Date(),
-    });
+    } as DeepPartial<Prescription>);
     console.log(insertResult);
 
     return this.findById(insertResult.id);
@@ -150,7 +125,7 @@ export class PrescriptionServices {
     prescriptionId: number,
     consultationId: number,
     docUserId: number,
-    payload,
+    payload: VerifyPrescriptionDto,
   ) {
     const user: Users = await this.usersRepository.findOne({
       where: {
@@ -158,7 +133,7 @@ export class PrescriptionServices {
       },
     });
     if (!(user && user.role === 'doctor')) {
-      throw new BadRequestException('Doctor not found');
+      throw new BadRequestException('Doctor user not found');
     }
     const doctor: Doctor = await this.doctorRepo.findOne({
       where: {
@@ -174,7 +149,7 @@ export class PrescriptionServices {
       where: {
         id: consultationId,
         doctor: {
-          id: docUserId,
+          id: doctor.id,
         },
       },
     });
@@ -188,7 +163,7 @@ export class PrescriptionServices {
           id: consultationId,
         },
         doctor: {
-          id: docUserId,
+          id: doctor.id,
         },
       },
     });
@@ -204,6 +179,12 @@ export class PrescriptionServices {
       token: payload.otpCode,
       secret: this.configService.get<string>('OTP_SECRET'),
     });
+    console.log(
+      'otp validation: ',
+      payload,
+      valid,
+      this.configService.get<string>('OTP_SECRET'),
+    );
     if (!valid) {
       throw new BadRequestException('Cannot validate otp. Wrong otp.');
     }
@@ -251,7 +232,7 @@ export class PrescriptionServices {
           id: consultationId,
         },
         doctor: {
-          id: docUserId,
+          id: doctor.id,
         },
       },
       {
@@ -267,7 +248,11 @@ export class PrescriptionServices {
     return this.findById(prescriptionId);
   }
 
-  async delete(consultId: number, prescriptionId: number, docUserId: number) {
+  async delete(
+    consultationId: number,
+    prescriptionId: number,
+    docUserId: number,
+  ) {
     const user: Users = await this.usersRepository.findOne({
       where: {
         id: docUserId,
@@ -294,7 +279,7 @@ export class PrescriptionServices {
           id: consultationId,
         },
         doctor: {
-          id: docUserId,
+          id: doctor.id,
         },
       },
     });

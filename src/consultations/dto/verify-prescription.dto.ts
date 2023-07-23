@@ -1,1 +1,6 @@
-export class VerifyPrescriptionDto {}
+import { IsString } from 'class-validator';
+
+export class VerifyPrescriptionDto {
+  @IsString()
+  otpCode: string;
+}

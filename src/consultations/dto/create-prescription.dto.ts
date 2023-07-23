@@ -1,8 +1,34 @@
+import {
+  IsArray,
+  IsInt,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { DrugDetailsDto } from './drug-details.dto';
+import { LabTestPrescribedDto } from './lab-test-prescribed.dto';
+import { Type } from 'class-transformer';
+
 export class CreatePrescriptionDto {
-  memberId: number;
-  familyMemberId?: number;
+  @IsOptional()
+  @IsString()
   notes?: string;
+
+  @IsOptional()
+  @IsString()
   diagnosis?: string;
-  drugDetails?: string[];
-  labTests?: string[];
+  @IsOptional()
+  @IsArray()
+  @IsObject({ each: true })
+  @ValidateNested()
+  @Type(() => DrugDetailsDto)
+  drugDetails?: DrugDetailsDto[];
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested()
+  @Type(() => LabTestPrescribedDto)
+  @IsObject({ each: true })
+  labTests?: LabTestPrescribedDto[];
 }

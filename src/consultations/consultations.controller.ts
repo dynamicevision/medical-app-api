@@ -147,8 +147,8 @@ export class ConsultationsController {
   ) {
     const currentSub = request.user;
     return this.prescriptionService.verifyPrescription(
-      id,
       prescriptionId,
+      id,
       +currentSub.sub,
       payload,
     );

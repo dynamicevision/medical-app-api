@@ -10,7 +10,7 @@ import { LabTestPrescribedDto } from '../dto/lab-test-prescribed.dto';
 @Entity()
 export class Prescription extends CommonEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @ManyToOne(() => Doctor, (d) => d.consultations, { nullable: false })
   doctor: Doctor;
